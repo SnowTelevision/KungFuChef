@@ -1,0 +1,14 @@
+# 
+# 
+
+newmtl ShaoJunSword
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd Shao_Jun_Sword_D.tga
+map_Bump Shao_Jun_Sword_N.tga
+map_Ka Shao_Jun_Sword_O.tga

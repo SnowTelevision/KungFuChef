@@ -28,3 +28,13 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+Captures/
+
+Kung-Fu-Builds/
+
+KungFuChef/Library/
+
+KungFuChef/Temp/
+
+TestOutput/

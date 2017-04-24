@@ -8,13 +8,15 @@ public class GeneratePlate : MonoBehaviour
 {
     public GameObject target;
     //public Transform player;
+    public ContainerCounter plateCounter;
 
     public Quaternion shootDirection;
     // Use this for initialization
     void Start()
     {
-        StartCoroutine(createTarget(10f));
+        //StartCoroutine(createTarget(10f));
         shootDirection = transform.rotation;
+        createTarget();
         //shootDirection.eulerAngles = new Vector3(shootDirection.eulerAngles.x, shootDirection.eulerAngles.y, betterRandom(90, -90));
     }
 
@@ -24,19 +26,29 @@ public class GeneratePlate : MonoBehaviour
         //transform.LookAt(player);
         //shootDirection = transform.rotation;
         //shootDirection.eulerAngles = new Vector3(shootDirection.eulerAngles.x, shootDirection.eulerAngles.y, betterRandom(90, -90));
-    }
 
-    IEnumerator createTarget(float interval)
+
+        //if(plateCounter.containerCount == 0)
+        //{
+        //    createTarget();
+        //}
+    }
+    public void createTarget()
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(interval);
-
-            GameObject newTarget = Instantiate(target, transform.position, shootDirection);
-            //newTarget.GetComponent<Rigidbody>().AddForce(newTarget.transform.forward * 3f, ForceMode.Impulse);
-            Destroy(newTarget, 30f);
-        }
+        GameObject newTarget = Instantiate(target, transform.position, shootDirection);
     }
+
+    //IEnumerator createTarget(float interval)
+    //{
+    //    while (true)
+    //    {
+    //        yield return new WaitForSeconds(interval);
+    //
+    //        GameObject newTarget = Instantiate(target, transform.position, shootDirection);
+    //        //newTarget.GetComponent<Rigidbody>().AddForce(newTarget.transform.forward * 3f, ForceMode.Impulse);
+    //        Destroy(newTarget, 30f);
+    //    }
+    //}
 
     #region Better random number generator
 

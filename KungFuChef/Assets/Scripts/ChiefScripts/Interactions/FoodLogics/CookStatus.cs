@@ -7,6 +7,7 @@ public class CookStatus : MonoBehaviour
     public float minCookTime; //The minimum time required to finish cooking
     public float maxCookTime; //The maximum time allowed for cooking before it burnt
     public float grillSpeed; //how much percent the color change from original to target in 1 second
+    public int foodType;
 
     public float cookedTime;
     public bool isGood; //If the food is in good status (is it finished cooking/processing)

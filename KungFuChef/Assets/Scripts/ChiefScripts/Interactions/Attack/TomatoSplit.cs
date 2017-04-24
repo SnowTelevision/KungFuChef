@@ -107,12 +107,23 @@ public class TomatoSplit : MonoBehaviour
 
     void split()
     {
-        left.SetActive(true);
-        left.transform.parent = null;
-        right.SetActive(true);
-        right.transform.parent = null;
-        middle.SetActive(true);
-        middle.transform.parent = null;
+        if (left != null)
+        {
+            left.SetActive(true);
+            left.transform.parent = null;
+        }
+
+        if (right != null)
+        {
+            right.SetActive(true);
+            right.transform.parent = null;
+        }
+
+        if (middle != null)
+        {
+            middle.SetActive(true);
+            middle.transform.parent = null;
+        }
 
         left.GetComponent<Rigidbody>().AddForce(-tomatoUncut.transform.right * 0.5f, ForceMode.Impulse);
         right.GetComponent<Rigidbody>().AddForce(tomatoUncut.transform.right * 0.5f, ForceMode.Impulse);

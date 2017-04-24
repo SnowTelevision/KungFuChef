@@ -33,7 +33,7 @@ public class ContainerCounter : MonoBehaviour
     {
         //print(col.name + " exited");
 
-        if (col.name == "FoodContainer")
+        if (col.tag == "FoodContainer")
         {
             containerCount--;
 

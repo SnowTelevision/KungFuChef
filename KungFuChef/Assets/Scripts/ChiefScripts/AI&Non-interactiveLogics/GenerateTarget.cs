@@ -41,7 +41,7 @@ public class GenerateTarget : MonoBehaviour
             GameObject newTarget = Instantiate(targets[betterRandom(0, targets.Length - 1)], transform.position, shootDirection);
             newTarget.GetComponent<Rigidbody>().AddForce(newTarget.transform.forward * 3f, ForceMode.Impulse);
             //print("impulse: " + newTarget.name + ": " + newTarget.GetComponent<Rigidbody>().velocity);
-            Destroy(newTarget, 10f);
+            //Destroy(newTarget, 10f);
         }
     }
 

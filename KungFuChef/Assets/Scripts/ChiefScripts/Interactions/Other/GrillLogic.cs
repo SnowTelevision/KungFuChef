@@ -23,7 +23,7 @@ public class GrillLogic : MonoBehaviour
 
     public void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "Food")
+        if (col.tag == "Food" || col.tag == "RawFood")
         {
             col.GetComponent<StartGrill>().enabled = true;
         }
@@ -31,7 +31,7 @@ public class GrillLogic : MonoBehaviour
 
     public void OnTriggerExit(Collider col)
     {
-        if (col.tag == "Food")
+        if (col.tag == "Food" || col.tag == "RawFood")
         {
             col.GetComponent<StartGrill>().enabled = false;
         }

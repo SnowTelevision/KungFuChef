@@ -13,14 +13,15 @@ public class DisplayOrder : MonoBehaviour
     public GameObject cheese;
     public GameObject bacon;
     public GameObject lettuce;
-    public int ingredientTypeNumber;
+    public int numberOfIngredientTypes;
 
     public int[] orderArray;
 
     // Use this for initialization
     void Start ()
     {
-        orderArray = new int[ingredientTypeNumber];
+        orderArray = new int[numberOfIngredientTypes];
+        displayOrderFunc();
 	}
 	
 	// Update is called once per frame
@@ -31,7 +32,33 @@ public class DisplayOrder : MonoBehaviour
 
     public void displayOrderFunc()
     {
-        //for(int i = 0; )
+        for(int i = 0; i < numberOfIngredientTypes; i++)
+        {
+            if(i == 0)
+            {
+                orderArray[i] = 1;
+            }
+
+            if(i == 1)
+            {
+                orderArray[i] = betterRandom(1, 2);
+            }
+
+            if (i == 2)
+            {
+                orderArray[i] = betterRandom(0, 1);
+            }
+
+            if (i == 3)
+            {
+                orderArray[i] = betterRandom(0, 1);
+            }
+
+            if (i == 4)
+            {
+                orderArray[i] = 1;
+            }
+        }
     }
 
     #region Better random number generator

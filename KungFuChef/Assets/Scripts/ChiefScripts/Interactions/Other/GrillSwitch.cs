@@ -51,8 +51,8 @@ public class GrillSwitch : MonoBehaviour
 
         else if(!triggerLogic.turnedOn)
         {
-            triggerLogic.turnedOn = true;
             grillTrigger.SetActive(true);
+            triggerLogic.turnedOn = true;
         }
     }
 }

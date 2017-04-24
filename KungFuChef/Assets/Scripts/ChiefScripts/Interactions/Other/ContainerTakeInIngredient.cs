@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ContainerTakeInIngredient : MonoBehaviour
 {
+    public GameProgressManager gameManager;
 
-
-    public Transform[] containedIngredientTransforms;
+    public List<Transform> containedIngredientTransforms;
     public CookStatus[] containedIngredientStatuses;
     public int ingredientCount;
 
@@ -24,11 +24,13 @@ public class ContainerTakeInIngredient : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        //print(col.name + " entered");
+        //print(col.tag + " entered");
 
         if (col.tag == "Food")
         {
-            col.transform.parent = transform.parent;
+            //col.transform.parent = transform;
+            //print(col.transform.parent);
+            containedIngredientTransforms.Add(col.transform);
             ingredientCount++;
         }
     }
@@ -39,24 +41,31 @@ public class ContainerTakeInIngredient : MonoBehaviour
 
         if (col.tag == "Food")
         {
-            col.transform.parent = null;
+            //col.transform.parent = null;
+
+            containedIngredientTransforms.Remove(col.transform);
             ingredientCount--;
         }
     }
 
     public void arrangeOrder()
     {
-        containedIngredientTransforms = GetComponentsInChildren<Transform>();
+        //containedIngredientTransforms = GetComponentsInChildren<Transform>();
         containedIngredientStatuses = new CookStatus[ingredientCount];
 
-        List<Transform> tempSortList = new List<Transform>(GetComponentsInChildren<Transform>());
-        tempSortList.Sort((x, y) => { return Mathf.FloorToInt(1000.0f * (x.position.z - y.position.z)); });
-        containedIngredientTransforms = tempSortList.ToArray();
+        //List<Transform> tempSortList = new List<Transform>(GetComponentsInChildren<Transform>());
+        //tempSortList.Sort((x, y) => { return Mathf.FloorToInt(1000.0f * (x.position.z - y.position.z)); });
+        containedIngredientTransforms.Sort((x, y) => { return Mathf.FloorToInt(1000.0f * (x.position.z - y.position.z)); });
+        //containedIngredientTransforms = tempSortList.ToArray();
 
-        for(int i = 0; i < ingredientCount; i++)
+        for (int i = 0; i < ingredientCount; i++)
         {
             containedIngredientStatuses[i] = containedIngredientTransforms[i].GetComponent<CookStatus>();
         }
+
+        gameManager.currentOrder.currentContainedIngredients = containedIngredientStatuses;
+
+        gameManager.currentOrder.startVerifyOrder();
     }
 
     public IEnumerator waitAndExecute()

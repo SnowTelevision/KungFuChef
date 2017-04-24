@@ -28,18 +28,10 @@ public class VerifyOrder : MonoBehaviour
 
         if (col.tag == "FoodContainer")
         {
+            gameManager.currentOrder = this;
             isOrderCorrect = true;
             orderArray = gameManager.orderDisplay.orderArray;
-            col.GetComponent<ContainerTakeInIngredient>().arrangeOrder();
-            currentContainedIngredients = col.GetComponent<ContainerTakeInIngredient>().containedIngredientStatuses;
-
-            startVerifyOrder();
-
-            if(isOrderCorrect)
-            {
-                print("CORRECT!");
-                isOrderCorrect = false;
-            }
+            col.GetComponentInChildren<ContainerTakeInIngredient>().arrangeOrder();
         }
     }
 
@@ -59,7 +51,7 @@ public class VerifyOrder : MonoBehaviour
 
             for(int j = ingredientArrayIndex; j < currentIngredientCount; j++)
             {
-                if(currentContainedIngredients[ingredientArrayIndex].foodType != i || !currentContainedIngredients[ingredientArrayIndex].isGood)
+                if(currentContainedIngredients[ingredientArrayIndex].foodType != i || !currentContainedIngredients[ingredientArrayIndex].isGood || ingredientArrayIndex >= currentContainedIngredients.Length)
                 {
                     isOrderCorrect = false;
                     break;
@@ -72,6 +64,12 @@ public class VerifyOrder : MonoBehaviour
             {
                 break;
             }
+        }
+
+        if (isOrderCorrect)
+        {
+            print("CORRECT!");
+            isOrderCorrect = false;
         }
     }
 }

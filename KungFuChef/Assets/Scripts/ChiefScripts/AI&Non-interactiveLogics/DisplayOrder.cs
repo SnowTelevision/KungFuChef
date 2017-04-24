@@ -32,6 +32,7 @@ public class DisplayOrder : MonoBehaviour
 
     public void displayOrderFunc()
     {
+        /*
         for(int i = 0; i < numberOfIngredientTypes; i++)
         {
             if(i == 0)
@@ -59,6 +60,37 @@ public class DisplayOrder : MonoBehaviour
                 orderArray[i] = 1;
             }
         }
+        */
+
+        ///Testing
+        for (int i = 0; i < numberOfIngredientTypes; i++)
+        {
+            if (i == 0)
+            {
+                orderArray[i] = 1;
+            }
+
+            if (i == 1)
+            {
+                orderArray[i] = 1;
+            }
+
+            if (i == 2)
+            {
+                orderArray[i] = 0;
+            }
+
+            if (i == 3)
+            {
+                orderArray[i] = 1;
+            }
+
+            if (i == 4)
+            {
+                orderArray[i] = 1;
+            }
+        }
+        ///
     }
 
     #region Better random number generator

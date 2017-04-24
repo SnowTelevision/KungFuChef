@@ -60,7 +60,7 @@ public class TomatoSplit : MonoBehaviour
             }
 
             isBlade = true;
-            print("blade edge: " + col.transform.name + ", collider rotation: " + transform.up + ", blade rotation: " + col.transform.up + ", blade velocity: " + blade.bladeVelocity);
+            //print("blade edge: " + col.transform.name + ", collider rotation: " + transform.up + ", blade rotation: " + col.transform.up + ", blade velocity: " + blade.bladeVelocity);
 
             cutForce = Mathf.Abs(blade.bladeVelocity.y);
 

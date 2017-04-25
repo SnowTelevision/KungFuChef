@@ -42,23 +42,29 @@ public class VerifyOrder : MonoBehaviour
 
         for(int i = 0; i < orderArray.Length; i++)
         {
+            print("orderType: " + i);
             if(orderArray[i] == 0)
             {
+                print("Type " + i + " is not needed.");
                 continue;
             }
 
             currentIngredientCount = orderArray[i];
 
-            for(int j = ingredientArrayIndex; j < currentIngredientCount; j++)
+            for(int j = 0; j < currentIngredientCount; j++)
             {
+                print("Contained ingredient index: " + ingredientArrayIndex + ", type is: " + currentContainedIngredients[ingredientArrayIndex].foodType);
                 if(currentContainedIngredients[ingredientArrayIndex].foodType != i || !currentContainedIngredients[ingredientArrayIndex].isGood || ingredientArrayIndex >= currentContainedIngredients.Length)
                 {
+                    print("WRONG Contained ingredient index: " + ingredientArrayIndex + ", type is: " + currentContainedIngredients[ingredientArrayIndex].foodType);
                     isOrderCorrect = false;
                     break;
                 }
 
                 ingredientArrayIndex++;
             }
+
+            print("next type");
 
             if(!isOrderCorrect)
             {

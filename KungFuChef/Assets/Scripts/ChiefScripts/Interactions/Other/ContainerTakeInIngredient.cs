@@ -28,8 +28,9 @@ public class ContainerTakeInIngredient : MonoBehaviour
 
         if (col.tag == "Food")
         {
-            //col.transform.parent = transform;
-            //print(col.transform.parent);
+            print(col.transform.localPosition);
+            col.transform.SetParent(transform);
+            print(col.transform.localPosition + ", " + col.transform.parent.name);
             containedIngredientTransforms.Add(col.transform);
             ingredientCount++;
         }
@@ -37,11 +38,11 @@ public class ContainerTakeInIngredient : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
-        //print(col.name + " exited");
-
         if (col.tag == "Food")
         {
-            //col.transform.parent = null;
+            print(col.name + " exited");
+
+            col.transform.parent = null;
 
             containedIngredientTransforms.Remove(col.transform);
             ingredientCount--;
@@ -55,11 +56,17 @@ public class ContainerTakeInIngredient : MonoBehaviour
 
         //List<Transform> tempSortList = new List<Transform>(GetComponentsInChildren<Transform>());
         //tempSortList.Sort((x, y) => { return Mathf.FloorToInt(1000.0f * (x.position.z - y.position.z)); });
-        containedIngredientTransforms.Sort((x, y) => { return Mathf.FloorToInt(1000.0f * (x.position.z - y.position.z)); });
+        for(int i = 0; i < containedIngredientTransforms.Count; i++)
+        {
+            containedIngredientTransforms[i].SetParent(transform);
+        }
+
+        containedIngredientTransforms.Sort((x, y) => { return Mathf.FloorToInt(100000.0f * (x.localPosition.z - y.localPosition.z)); });
         //containedIngredientTransforms = tempSortList.ToArray();
 
         for (int i = 0; i < ingredientCount; i++)
         {
+            print("Ingredient " + i + "'s local position:" + containedIngredientTransforms[i].localPosition * 10000f);
             containedIngredientStatuses[i] = containedIngredientTransforms[i].GetComponent<CookStatus>();
         }
 
@@ -67,6 +74,7 @@ public class ContainerTakeInIngredient : MonoBehaviour
 
         gameManager.currentOrder.startVerifyOrder();
     }
+
 
     public IEnumerator waitAndExecute()
     {

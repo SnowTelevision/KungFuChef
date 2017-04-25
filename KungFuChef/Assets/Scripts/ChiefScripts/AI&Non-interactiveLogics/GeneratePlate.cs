@@ -36,6 +36,7 @@ public class GeneratePlate : MonoBehaviour
     public void createTarget()
     {
         GameObject newTarget = Instantiate(target, transform.position, shootDirection);
+        newTarget.GetComponentInChildren<ContainerTakeInIngredient>().gameManager = FindObjectOfType<GameProgressManager>();
     }
 
     //IEnumerator createTarget(float interval)

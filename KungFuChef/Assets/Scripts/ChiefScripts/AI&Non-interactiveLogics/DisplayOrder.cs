@@ -72,17 +72,17 @@ public class DisplayOrder : MonoBehaviour
 
             if (i == 1)
             {
-                orderArray[i] = 1;
+                orderArray[i] = 2;
             }
 
             if (i == 2)
             {
-                orderArray[i] = 0;
+                orderArray[i] = 1;
             }
 
             if (i == 3)
             {
-                orderArray[i] = 1;
+                orderArray[i] = 0;
             }
 
             if (i == 4)

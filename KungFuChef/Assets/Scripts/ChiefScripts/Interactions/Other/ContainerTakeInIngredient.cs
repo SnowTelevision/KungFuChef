@@ -70,9 +70,9 @@ public class ContainerTakeInIngredient : MonoBehaviour
             containedIngredientStatuses[i] = containedIngredientTransforms[i].GetComponent<CookStatus>();
         }
 
-        gameManager.currentOrder.currentContainedIngredients = containedIngredientStatuses;
+        gameManager.orderVerifier.currentContainedIngredients = containedIngredientStatuses;
 
-        gameManager.currentOrder.startVerifyOrder();
+        gameManager.orderVerifier.startVerifyOrder();
     }
 
 

@@ -9,10 +9,12 @@ public class GrillSwitch : MonoBehaviour
     public Vector3 onPosition;
     public Vector3 offPosition;
 
+    public MeshRenderer meshColor;
+
 	// Use this for initialization
 	void Start ()
     {
-		
+        meshColor = GetComponent<MeshRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -28,12 +30,14 @@ public class GrillSwitch : MonoBehaviour
             if (!grillTrigger.activeInHierarchy)
             {
                 grillTrigger.transform.localPosition = onPosition;
+                meshColor.material.color = Color.yellow;
                 StartCoroutine(grillOnOff());
             }
 
             else if (grillTrigger.activeInHierarchy)
             {
                 grillTrigger.transform.localPosition = offPosition;
+                meshColor.material.color = Color.white;
                 StartCoroutine(grillOnOff());
             }
         }

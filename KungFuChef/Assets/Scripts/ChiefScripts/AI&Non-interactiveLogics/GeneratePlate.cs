@@ -16,7 +16,7 @@ public class GeneratePlate : MonoBehaviour
     {
         //StartCoroutine(createTarget(10f));
         shootDirection = transform.rotation;
-        createTarget();
+        //createTarget();
         //shootDirection.eulerAngles = new Vector3(shootDirection.eulerAngles.x, shootDirection.eulerAngles.y, betterRandom(90, -90));
     }
 

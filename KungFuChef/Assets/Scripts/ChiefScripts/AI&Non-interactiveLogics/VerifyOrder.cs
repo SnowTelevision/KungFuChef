@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VerifyOrder : MonoBehaviour
 {
     public GameProgressManager gameManager;
+    public Text scoreText;
 
     public int[] orderArray;
     public CookStatus[] currentContainedIngredients;
     public bool isOrderCorrect;
+    public GameObject thisContainer;
 
     // Use this for initialization
     void Start ()
@@ -19,7 +22,10 @@ public class VerifyOrder : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-		
+		//if(Time.time - gameManager.currentOrderStartTime >= gameManager.orderTimeLimit)
+  //      {
+  //          scoreText.text = "Time Out!";
+  //      }
 	}
 
     void OnTriggerEnter(Collider col)
@@ -28,10 +34,17 @@ public class VerifyOrder : MonoBehaviour
 
         if (col.tag == "FoodContainer")
         {
-            gameManager.currentOrder = this;
+            gameManager.orderVerifier = this;
             isOrderCorrect = true;
             orderArray = gameManager.orderDisplay.orderArray;
+            thisContainer = col.gameObject;
             col.GetComponentInChildren<ContainerTakeInIngredient>().arrangeOrder();
+        }
+
+        if (col.tag == "Food")
+        {
+            scoreText.text = "No Container!";
+            Destroy(col.gameObject);
         }
     }
 
@@ -40,9 +53,23 @@ public class VerifyOrder : MonoBehaviour
         int ingredientArrayIndex = 0;
         int currentIngredientCount = 0;
 
+        if(currentContainedIngredients.Length == 0)
+        {
+            isOrderCorrect = false;
+            scoreText.text = "Empty Plate!";
+
+            if (thisContainer != null)
+            {
+                Destroy(thisContainer);
+            }
+
+            return;
+        }
+
         for(int i = 0; i < orderArray.Length; i++)
         {
             print("orderType: " + i);
+
             if(orderArray[i] == 0)
             {
                 print("Type " + i + " is not needed.");
@@ -57,6 +84,7 @@ public class VerifyOrder : MonoBehaviour
                 if(currentContainedIngredients[ingredientArrayIndex].foodType != i || !currentContainedIngredients[ingredientArrayIndex].isGood || ingredientArrayIndex >= currentContainedIngredients.Length)
                 {
                     print("WRONG Contained ingredient index: " + ingredientArrayIndex + ", type is: " + currentContainedIngredients[ingredientArrayIndex].foodType);
+                    scoreText.text = "Wrong!";
                     isOrderCorrect = false;
                     break;
                 }
@@ -68,6 +96,11 @@ public class VerifyOrder : MonoBehaviour
 
             if(!isOrderCorrect)
             {
+                if (thisContainer != null)
+                {
+                    Destroy(thisContainer);
+                }
+
                 break;
             }
         }
@@ -75,6 +108,15 @@ public class VerifyOrder : MonoBehaviour
         if (isOrderCorrect)
         {
             print("CORRECT!");
+            scoreText.text = "Correct!";
+            gameManager.orderDisplay.displayOrderFunc();
+            gameManager.currentOrderStartTime = Time.time;
+
+            if (thisContainer != null)
+            {
+                Destroy(thisContainer);
+            }
+
             isOrderCorrect = false;
         }
     }

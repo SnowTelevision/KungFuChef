@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Security.Cryptography;
 using System;
+using UnityEngine.UI;
 
 public class DisplayOrder : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class DisplayOrder : MonoBehaviour
     public GameObject bacon;
     public GameObject lettuce;
     public int numberOfIngredientTypes;
+    public Text[] ingredientCounters;
 
     public int[] orderArray;
 
@@ -21,7 +23,7 @@ public class DisplayOrder : MonoBehaviour
     void Start ()
     {
         orderArray = new int[numberOfIngredientTypes];
-        displayOrderFunc();
+        //displayOrderFunc();
 	}
 	
 	// Update is called once per frame
@@ -32,7 +34,7 @@ public class DisplayOrder : MonoBehaviour
 
     public void displayOrderFunc()
     {
-        /*
+        
         for(int i = 0; i < numberOfIngredientTypes; i++)
         {
             if(i == 0)
@@ -59,37 +61,39 @@ public class DisplayOrder : MonoBehaviour
             {
                 orderArray[i] = 1;
             }
+
+            ingredientCounters[i].text = orderArray[i].ToString();
         }
-        */
+        
 
-        ///Testing
-        for (int i = 0; i < numberOfIngredientTypes; i++)
-        {
-            if (i == 0)
-            {
-                orderArray[i] = 1;
-            }
+        /////Testing
+        //for (int i = 0; i < numberOfIngredientTypes; i++)
+        //{
+        //    if (i == 0)
+        //    {
+        //        orderArray[i] = 1;
+        //    }
 
-            if (i == 1)
-            {
-                orderArray[i] = 2;
-            }
+        //    if (i == 1)
+        //    {
+        //        orderArray[i] = 2;
+        //    }
 
-            if (i == 2)
-            {
-                orderArray[i] = 1;
-            }
+        //    if (i == 2)
+        //    {
+        //        orderArray[i] = 1;
+        //    }
 
-            if (i == 3)
-            {
-                orderArray[i] = 0;
-            }
+        //    if (i == 3)
+        //    {
+        //        orderArray[i] = 0;
+        //    }
 
-            if (i == 4)
-            {
-                orderArray[i] = 1;
-            }
-        }
+        //    if (i == 4)
+        //    {
+        //        orderArray[i] = 1;
+        //    }
+        //}
         ///
     }
 

@@ -14,7 +14,7 @@ public class GenerateTarget : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        StartCoroutine(createTarget(3f));
+        StartCoroutine(createTarget(1f));
         //print("Targets length: " + targets.Length);
 	}
 	
@@ -38,7 +38,7 @@ public class GenerateTarget : MonoBehaviour
 
 
 
-            GameObject newTarget = Instantiate(targets[betterRandom(0, targets.Length - 1)], transform.position, shootDirection);
+            GameObject newTarget = Instantiate(targets[betterRandom(0, targets.Length - 1)], new Vector3(transform.position.x + (betterRandom(-100, 100) / 1000f), transform.position.y + (betterRandom(-100, 100) / 1000f), transform.position.z), shootDirection);
             newTarget.GetComponent<Rigidbody>().AddForce(newTarget.transform.forward * 3f, ForceMode.Impulse);
             //print("impulse: " + newTarget.name + ": " + newTarget.GetComponent<Rigidbody>().velocity);
             //Destroy(newTarget, 10f);

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VRTK;
 
-public class PortalSwitch : MonoBehaviour
+public class PortalSwitch : VRTK_InteractableObject
 {
     public GameObject portalDoor;
 
@@ -15,27 +16,36 @@ public class PortalSwitch : MonoBehaviour
         meshColor = GetComponent<MeshRenderer>();
     }
 	
-	// Update is called once per frame
-	void Update ()
+    public override void StartUsing(GameObject usingObject)
     {
-		
-	}
-
-    public void OnTriggerEnter(Collider col)
-    {
-        if (col.tag == "ViveController")
+        if (portalDoor.activeSelf)
         {
-            if (portalDoor.activeSelf)
-            {
-                portalDoor.SetActive(false);
-                meshColor.material.color = Color.yellow;
-            }
+            portalDoor.SetActive(false);
+            meshColor.material.color = Color.yellow;
+        }
 
-            else if (!portalDoor.activeSelf)
-            {
-                portalDoor.SetActive(true);
-                meshColor.material.color = Color.white;
-            }
+        else if (!portalDoor.activeSelf)
+        {
+            portalDoor.SetActive(true);
+            meshColor.material.color = Color.white;
         }
     }
+
+    //public void OnTriggerEnter(Collider col)
+    //{
+    //    if (col.tag == "ViveController")
+    //    {
+    //        if (portalDoor.activeSelf)
+    //        {
+    //            portalDoor.SetActive(false);
+    //            meshColor.material.color = Color.yellow;
+    //        }
+
+    //        else if (!portalDoor.activeSelf)
+    //        {
+    //            portalDoor.SetActive(true);
+    //            meshColor.material.color = Color.white;
+    //        }
+    //    }
+    //}
 }

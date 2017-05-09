@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VRTK;
 
-public class NewContainerSwitch : MonoBehaviour
+public class NewContainerSwitch : VRTK_InteractableObject
 {
     public GeneratePlate containerGenerator;
 
@@ -11,18 +12,17 @@ public class NewContainerSwitch : MonoBehaviour
     {
 		
 	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
 
-    public void OnTriggerEnter(Collider col)
+    public override void StartUsing(GameObject usingObject)
     {
-        if (col.tag == "ViveController")
-        {
-            containerGenerator.createTarget();
-        }
+        containerGenerator.createTarget();
     }
+
+    //public void OnTriggerEnter(Collider col)
+    //{
+    //    if (col.tag == "ViveController")
+    //    {
+    //        containerGenerator.createTarget();
+    //    }
+    //}
 }

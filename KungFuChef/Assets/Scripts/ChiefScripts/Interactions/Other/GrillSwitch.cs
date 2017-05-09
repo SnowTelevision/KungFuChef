@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VRTK;
 
-public class GrillSwitch : MonoBehaviour
+public class GrillSwitch : VRTK_InteractableObject
 {
     public GameObject grillTrigger;
     public GrillLogic triggerLogic;
     public Vector3 onPosition;
     public Vector3 offPosition;
+    public MeshRenderer griller;
+    //public Color redIron;
 
     public MeshRenderer meshColor;
 
@@ -16,32 +19,43 @@ public class GrillSwitch : MonoBehaviour
     {
         meshColor = GetComponent<MeshRenderer>();
 	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
 
-    public void OnTriggerEnter(Collider col)
+    public override void StartUsing(GameObject usingObject)
     {
-        if (col.tag == "ViveController")
+        if (!grillTrigger.activeInHierarchy)
         {
-            if (!grillTrigger.activeInHierarchy)
-            {
-                grillTrigger.transform.localPosition = onPosition;
-                meshColor.material.color = Color.yellow;
-                StartCoroutine(grillOnOff());
-            }
+            grillTrigger.transform.localPosition = onPosition;
+            meshColor.material.color = Color.yellow;
+            StartCoroutine(grillOnOff());
+        }
 
-            else if (grillTrigger.activeInHierarchy)
-            {
-                grillTrigger.transform.localPosition = offPosition;
-                meshColor.material.color = Color.white;
-                StartCoroutine(grillOnOff());
-            }
+        else if (grillTrigger.activeInHierarchy)
+        {
+            grillTrigger.transform.localPosition = offPosition;
+            meshColor.material.color = Color.white;
+            StartCoroutine(grillOnOff());
         }
     }
+
+    //public void OnTriggerEnter(Collider col)
+    //{
+    //    if (col.tag == "ViveController")
+    //    {
+    //        if (!grillTrigger.activeInHierarchy)
+    //        {
+    //            grillTrigger.transform.localPosition = onPosition;
+    //            meshColor.material.color = Color.yellow;
+    //            StartCoroutine(grillOnOff());
+    //        }
+
+    //        else if (grillTrigger.activeInHierarchy)
+    //        {
+    //            grillTrigger.transform.localPosition = offPosition;
+    //            meshColor.material.color = Color.white;
+    //            StartCoroutine(grillOnOff());
+    //        }
+    //    }
+    //}
 
     IEnumerator grillOnOff()
     {

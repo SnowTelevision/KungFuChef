@@ -33,6 +33,7 @@ public class GrillLogic : MonoBehaviour
     {
         if (col.tag == "Food" || col.tag == "RawFood")
         {
+            col.GetComponent<StartGrill>().overCookVFX.SetActive(false);
             col.GetComponent<StartGrill>().enabled = false;
         }
     }

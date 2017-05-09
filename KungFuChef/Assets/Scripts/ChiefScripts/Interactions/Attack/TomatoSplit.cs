@@ -11,6 +11,8 @@ public class TomatoSplit : MonoBehaviour
     public float forceToCut;
     public float maxAngleError;
     public float maxHorizontalDisplacementError;
+    public MeshRenderer wrapMesh;
+    public CookStatus wrapCookStatus;
 
     public bool isBlade;
     public bool isSwing;
@@ -109,18 +111,40 @@ public class TomatoSplit : MonoBehaviour
     {
         if (left != null)
         {
+            left.GetComponent<CookStatus>().isGood = wrapCookStatus.isGood; //If the food wrap is already burnt before it's been cut, it's sliced should keep the same status.
+
+
+            foreach(MeshRenderer mesh in left.GetComponentsInChildren<MeshRenderer>())
+            {
+                mesh.material.color = wrapMesh.material.color;
+            }
+
             left.SetActive(true);
             left.transform.parent = null;
         }
 
         if (right != null)
         {
+            left.GetComponent<CookStatus>().isGood = wrapCookStatus.isGood;
+
+            foreach (MeshRenderer mesh in right.GetComponentsInChildren<MeshRenderer>())
+            {
+                mesh.material.color = wrapMesh.material.color;
+            }
+
             right.SetActive(true);
             right.transform.parent = null;
         }
 
         if (middle != null)
         {
+            left.GetComponent<CookStatus>().isGood = wrapCookStatus.isGood;
+
+            foreach (MeshRenderer mesh in middle.GetComponentsInChildren<MeshRenderer>())
+            {
+                mesh.material.color = wrapMesh.material.color;
+            }
+
             middle.SetActive(true);
             middle.transform.parent = null;
         }

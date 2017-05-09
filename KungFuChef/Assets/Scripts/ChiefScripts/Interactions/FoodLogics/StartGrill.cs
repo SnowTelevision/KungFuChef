@@ -8,6 +8,7 @@ public class StartGrill : MonoBehaviour
     public Color targetGrillColor;
     public Color originalColor;
     public CookStatus cookStatus;
+    public GameObject overCookVFX;
 
     public float grillSpeed; // how much percent the color change from original to target in 1 second
     public Color newColor;
@@ -32,5 +33,10 @@ public class StartGrill : MonoBehaviour
         }
 
         cookStatus.cookedTime += Time.deltaTime;
+
+        if(!cookStatus.isGood)
+        {
+            overCookVFX.SetActive(true);
+        }
 	}
 }

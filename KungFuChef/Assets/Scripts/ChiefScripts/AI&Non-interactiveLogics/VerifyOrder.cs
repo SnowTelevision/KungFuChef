@@ -111,6 +111,7 @@ public class VerifyOrder : MonoBehaviour
             scoreText.text = "Correct!";
             gameManager.orderDisplay.displayOrderFunc();
             gameManager.currentOrderStartTime = Time.time;
+            gameManager.moneyScore += (currentContainedIngredients.Length + 1) * 10;
 
             if (thisContainer != null)
             {

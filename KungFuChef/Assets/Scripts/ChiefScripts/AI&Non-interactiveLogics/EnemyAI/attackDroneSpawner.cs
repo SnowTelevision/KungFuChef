@@ -17,20 +17,21 @@ public class attackDroneSpawner : MonoBehaviour {
     public float waitBeforeInitialPursue;                //waiting time before pursuing the player
     public float waitBeforeZapping;                      //waiting time before zapping the player
     public float zappingDistance;                               //distance from the where to zap the player
-    [HideInInspector] public int currentCountOfDrones;          //current count of attack drones in the scene
+    public float startChargeDistance;           //distance from the where to start charging for zap the player
+    public int currentCountOfDrones;          //current count of attack drones in the scene
 
     private float tempX, tempY;                                 //variables for handling random spawn location of the attack drones
 
     private GameObject tempDrone;                               //temporary instance of drone, just of data handling
     private GameObject tempTarget;                              //temporary instance of randomized target, just for data handling
 
-    private bool canSpawnDrone;                                 //variable to check if we have waited enough to spawn the next drone
+    public bool canSpawnDrone;                                 //variable to check if we have waited enough to spawn the next drone
 
 	void Start () {
         totalSpawnedUptilNow = 0;                               
         canSpawnDrone = true;
         currentCountOfDrones = 0;
-        StartCoroutine(allowDroneSpawning());
+        //StartCoroutine(allowDroneSpawning());
 
     }
 	
@@ -51,15 +52,21 @@ public class attackDroneSpawner : MonoBehaviour {
     
     IEnumerator allowDroneSpawning()                                        
     {
-        while (canSpawnDrone)
+        while (true)
         {
-            canSpawnDrone = true;                                               //this is true means we have done the waiting
-            spawnDrone();
+            if (canSpawnDrone)
+            {
+                if (currentCountOfDrones < maxNumberOfDrones)
+                {
+                    spawnDrone();
+                }
+            }
+
             yield return new WaitForSeconds(delayBetweenSpawningDrones);        //waiting before spawning the drone
         }
     }
 
-    void spawnDrone()
+    public void spawnDrone()
     {
         tempX = Random.Range(-spawnRadius, spawnRadius);                        //finding a random x position for the potential spawn point
         tempY = Mathf.Sqrt(Mathf.Pow(spawnRadius, 2) - Mathf.Pow(tempX, 2));    //using the equation of a circle to find the y position

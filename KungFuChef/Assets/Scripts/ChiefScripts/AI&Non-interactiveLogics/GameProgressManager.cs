@@ -15,53 +15,129 @@ public class GameProgressManager : MonoBehaviour
     public GameObject portalDoor;
     public float initialAtkDelay;
     public float initialDefDelay;
+    public Text scoreText;
 
     public float currentOrderStartTime;
     public float moneyScore;
+    public float minDefDroneSpawnInterval;
+    public float minAtkDroneSpawnInterval;
+    public bool startAtk;
+    public bool startDef;
+    public float timeAfterLastDef;
+    public float timeAfterLastAtk;
+    public float lastDefSpawnTime;
+    public float lastAtkSpawnTime;
+    public float pauseStartTime;
+    public float totalPausingTimeDef;
+    public float totalPausingTimeAtk;
+    public bool isSpawnerPausing;
     public float defStartTime;
     public float atkStartTime;
-    public float minDroneSpawnInterval;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         orderDisplay.displayOrderFunc();
         currentOrderStartTime = Time.time;
         atkSpawner.delayBetweenSpawningDrones = initialAtkDelay;
         defSpawner.delayBetweenSpawningDrones = initialDefDelay;
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        moneyScore = 250;
+        startAtk = false;
+        startDef = false;
+        lastDefSpawnTime = 0;
+        lastAtkSpawnTime = 0;
+
+
+
+        pauseStartTime = 0;
+        totalPausingTimeDef = 0;
+        totalPausingTimeAtk = 0;
+        isSpawnerPausing = true;
+    }
+
+    // Update is called once per frame
+    void Update()
     {
-		if(Time.time - currentOrderStartTime >= orderTimeLimit)
+        if (Time.time - currentOrderStartTime >= orderTimeLimit)
         {
             orderVerifier.scoreText.text = "Time Out!";
             orderDisplay.displayOrderFunc();
             currentOrderStartTime = Time.time;
         }
 
-        if(moneyScore >= 200 && !defSpawner.enabled)
+        if (!portalDoor.activeInHierarchy) //when portal is opening
         {
-            defSpawner.enabled = true;
-            defStartTime = Time.time;
+            atkSpawner.canSpawnDrone = true;
+            defSpawner.canSpawnDrone = true;
+
+            if (isSpawnerPausing)
+            {
+                isSpawnerPausing = false;
+            }
+
+            if (startDef && defSpawner.currentCountOfDrones <= defSpawner.maxNumberOfDrones)
+            {
+                timeAfterLastDef += Time.deltaTime;
+            }
+
+            if (startAtk && atkSpawner.currentCountOfDrones <= defSpawner.maxNumberOfDrones)
+            {
+                timeAfterLastAtk += Time.deltaTime;
+            }
+
         }
 
-        if (moneyScore >= 500 && !atkSpawner.enabled)
+        if (portalDoor.activeInHierarchy) //when portal is closing
         {
-            atkSpawner.enabled = true;
-            defStartTime = Time.time;
+            atkSpawner.canSpawnDrone = false;
+            defSpawner.canSpawnDrone = false;
+
+            if (!isSpawnerPausing)
+            {
+                isSpawnerPausing = true;
+            }
         }
 
-        if (atkSpawner.delayBetweenSpawningDrones >= minDroneSpawnInterval)
+        if (moneyScore >= 200 && !startDef && !isSpawnerPausing)
         {
-            atkSpawner.delayBetweenSpawningDrones = initialDefDelay - ((Time.time - atkStartTime) / 5f);
+            startDef = true;
+            defSpawner.spawnDrone();
         }
 
-        if (atkSpawner.delayBetweenSpawningDrones >= minDroneSpawnInterval)
+        if (moneyScore >= 500 && !startAtk && !isSpawnerPausing)
         {
-            atkSpawner.delayBetweenSpawningDrones = initialDefDelay - ((Time.time - atkStartTime) / 5f);
+            startAtk = true;
+            atkSpawner.spawnDrone();
         }
+
+        if (defSpawner.delayBetweenSpawningDrones >= minDefDroneSpawnInterval && startDef && !isSpawnerPausing) //shorten def drone spawn delay as time goes
+        {
+            defSpawner.delayBetweenSpawningDrones = initialDefDelay - ((Time.time - defStartTime) / 5f);
+        }
+
+        if (atkSpawner.delayBetweenSpawningDrones >= minAtkDroneSpawnInterval && startAtk && !isSpawnerPausing) //shorten atk drone spawn delay as time goes
+        {
+            atkSpawner.delayBetweenSpawningDrones = initialAtkDelay - ((Time.time - atkStartTime) / 5f);
+        }
+
+        //print(defSpawner.canSpawnDrone);
+        //print(timeAfterLastDef - defSpawner.delayBetweenSpawningDrones);
+        //print(defSpawner.currentCountOfDrones - defSpawner.maxNumberOfDrones);
+        //print(startDef);
+
+        if (defSpawner.canSpawnDrone && timeAfterLastDef >= defSpawner.delayBetweenSpawningDrones && defSpawner.currentCountOfDrones <= defSpawner.maxNumberOfDrones && startDef) //spawn def drone
+        {
+            defSpawner.spawnDrone();
+            timeAfterLastDef = 0;
+        }
+
+        if (atkSpawner.canSpawnDrone && timeAfterLastAtk >= atkSpawner.delayBetweenSpawningDrones && atkSpawner.currentCountOfDrones <= defSpawner.maxNumberOfDrones && startAtk) //spawn atk drone
+        {
+            atkSpawner.spawnDrone();
+            timeAfterLastAtk = 0;
+        }
+
+        scoreText.text = "$" + moneyScore;
     }
 
     public void gameOverLogic()

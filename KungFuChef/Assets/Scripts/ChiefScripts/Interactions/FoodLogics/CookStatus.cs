@@ -11,12 +11,14 @@ public class CookStatus : MonoBehaviour
 
     public float cookedTime;
     public bool isGood; //If the food is in good status (is it finished cooking/processing)
+    public bool isBurnt;
 
 	// Use this for initialization
 	void Start ()
     {
         cookedTime = 0;
         isGood = false;
+        isBurnt = false;
 	}
 	
 	// Update is called once per frame
@@ -37,6 +39,7 @@ public class CookStatus : MonoBehaviour
             if(isGood)
             {
                 //Play over cook animation
+                isBurnt = true;
             }
             isGood = false;
         }

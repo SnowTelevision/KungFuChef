@@ -93,8 +93,9 @@ public class VerifyOrder : MonoBehaviour
             }
 
             print("next type");
+            //ingredientArrayIndex = 0;
 
-            if(!isOrderCorrect)
+            if (!isOrderCorrect)
             {
                 if (thisContainer != null)
                 {
@@ -119,6 +120,7 @@ public class VerifyOrder : MonoBehaviour
             }
 
             isOrderCorrect = false;
+            return;
         }
     }
 }

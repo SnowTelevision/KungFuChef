@@ -23,6 +23,8 @@ public class EnableGravityForFood : MonoBehaviour
         if (col.tag == "Food")
         {
             col.GetComponent<Rigidbody>().useGravity = true;
+            col.GetComponent<Rigidbody>().angularDrag = 0.05f;
+            col.GetComponent<Rigidbody>().velocity *= 0.5f;
         }
     }
 }

@@ -34,7 +34,7 @@ public class StartGrill : MonoBehaviour
 
         cookStatus.cookedTime += Time.deltaTime;
 
-        if(!cookStatus.isGood)
+        if(cookStatus.isBurnt)
         {
             overCookVFX.SetActive(true);
         }

@@ -18,17 +18,17 @@ public class patrolDroneSpawner : MonoBehaviour {
                                                             //This is the dynamically changing position on the patrol area
 
     private float tempX, tempY;                             //variables to store random position values
-    [HideInInspector] public int currentCountOfDrones;      //variable to keep a track on the current count of patrol drones
+    public int currentCountOfDrones;      //variable to keep a track on the current count of patrol drones
 
     private GameObject tempDrone;                           //temporary instance of drone, just of data handling
     private GameObject tempTarget;                          //temporary instance of randomized target, just for data handling
-    private bool canSpawnDrone;                             //boolean to check if we have waited before spawning the next drone   
+    public bool canSpawnDrone;                             //boolean to check if we have waited before spawning the next drone   
 
 	void Start () {
         totalSpawnedUptilNow = 0;   
         currentCountOfDrones = 0;
         canSpawnDrone = true;
-        StartCoroutine(allowDroneSpawning());
+        //StartCoroutine(allowDroneSpawning());
     }
 	
 	void Update ()
@@ -42,20 +42,21 @@ public class patrolDroneSpawner : MonoBehaviour {
     
     IEnumerator allowDroneSpawning()
     {
-        while (canSpawnDrone)
+        while (true)
         {
-            canSpawnDrone = true;
-
-            if (currentCountOfDrones < maxNumberOfDrones)
+            if (canSpawnDrone)
             {
-                spawnDrone();                                                       //function to spawn the drone
+                if (currentCountOfDrones < maxNumberOfDrones)
+                {
+                    spawnDrone();                                                       //function to spawn the drone
+                }
             }
 
             yield return new WaitForSeconds(delayBetweenSpawningDrones);        //code to wait before spawning
         }
     }
 
-    void spawnDrone()
+    public void spawnDrone()
     {
         tempX = Random.Range(-spawnRadius, spawnRadius);                        //finding a random x position for the potential spawn point
         tempY = Mathf.Sqrt(Mathf.Pow(spawnRadius, 2) - Mathf.Pow(tempX, 2));    //using the circle equation, finding the equivalent y position

@@ -24,7 +24,7 @@ public class patrolScript : MonoBehaviour {
         StartCoroutine(turn());
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (isThereRandom == false)                             //checking if new random position should be assigned or not
         {
@@ -37,7 +37,7 @@ public class patrolScript : MonoBehaviour {
         }
         else
         {
-            //transform.position = Vector3.MoveTowards(transform.position, randomizedTarget.transform.position, speed); //drone moving towards the randomized target
+            //transform.position = Vector3.MoveTowards(transform.position, randomizedTarget.transform.position, speed / 40f); //drone moving towards the randomized target
             rigidBody.velocity = transform.forward.normalized * speed;
             if ((transform.position - randomizedTarget.transform.position).magnitude <= 0.1f)
             {
@@ -71,34 +71,34 @@ public class patrolScript : MonoBehaviour {
 
     IEnumerator turn()
     {
-    //    float oldX;
-    //    float oldY;
-    //    float oldZ;
-        //float newX;
-        //float newY;
-        //float newZ;
+        float oldX;
+        float oldY;
+        float oldZ;
+        float newX;
+        float newY;
+        float newZ;
 
         while (true)
         {
-        //    oldX = transform.eulerAngles.x;
-        //    oldY = transform.eulerAngles.y;
-        //    oldZ = transform.eulerAngles.z;
+            oldX = transform.eulerAngles.x;
+            oldY = transform.eulerAngles.y;
+            oldZ = transform.eulerAngles.z;
             transform.LookAt(randomizedTarget.transform);
-            //newX = transform.eulerAngles.x;
-            //newY = transform.eulerAngles.y;
-            //newZ = transform.eulerAngles.z;
+            newX = transform.eulerAngles.x;
+            newY = transform.eulerAngles.y;
+            newZ = transform.eulerAngles.z;
 
-            //for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / turnTime)
-            //{
-            //    rotation.x = Mathf.LerpAngle(oldX, newX, t);
-            //    rotation.y = Mathf.LerpAngle(oldY, newY, t);
-            //    rotation.z = Mathf.LerpAngle(oldZ, newZ, t);
+            for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / turnTime)
+            {
+                rotation.x = Mathf.LerpAngle(oldX, newX, t);
+                rotation.y = Mathf.LerpAngle(oldY, newY, t);
+                rotation.z = Mathf.LerpAngle(oldZ, newZ, t);
 
-            //    transform.eulerAngles = rotation;
-            //    //rigidBody.velocity = transform.forward.normalized * speed;
-            //    //transform.eulerAngles = normalRotation;
-            //    yield return null;
-            //}
+                transform.eulerAngles = rotation;
+                //rigidBody.velocity = transform.forward.normalized * speed;
+                //transform.eulerAngles = normalRotation;
+                yield return null;
+            }
             yield return null;
         }
     }

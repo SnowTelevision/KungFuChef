@@ -21,7 +21,8 @@ public class attackScript : MonoBehaviour
     public float speed;                         //speed of the drone
     public float waitingTime;                   //time to wait at the initial position before pursuing the player
     public float zapWaitingTime;                //time to wait after reaching the player and zapping
-    public float zapDistance;                   //distance from the player from where the drone will wait and zap
+    public float zapDistance;                   //distance to zap the player
+    public float startChargeDistance;           //distance from the player from where the drone will wait and zap
 
     private Coroutine currentCoroutine = null;  //variable to store the coroutine, this is need to stop the coroutine when desired
 
@@ -46,7 +47,7 @@ public class attackScript : MonoBehaviour
         gameManager = FindObjectOfType<GameProgressManager>();
     }
 
-    void Update()                                       
+    void FixedUpdate()                                       
     {
         //rotateUnit(followee.transform.position);            //making the drone face the player all the time
 
@@ -57,6 +58,16 @@ public class attackScript : MonoBehaviour
         if (!gameManager.portalDoor.activeInHierarchy && !lights.activeInHierarchy) //if the door is open then turn on drone lights
         {
             lights.SetActive(true);
+        }
+
+        if (state != 0)
+        {
+            distBetween = (transform.position - followee.transform.position).magnitude;
+            if (distBetween > zapDistance)
+            {
+                //transform.position = Vector3.MoveTowards(transform.position, followee.transform.position, speed);
+                rigidBody.velocity = transform.forward.normalized * speed;
+            }
         }
 
         switch (state)                          
@@ -75,11 +86,7 @@ public class attackScript : MonoBehaviour
                 break;
 
             case 2:                                                     //pursuing the player
-                distBetween = (transform.position - followee.transform.position).magnitude;
-                if (distBetween > zapDistance)
-                    //transform.position = Vector3.MoveTowards(transform.position, followee.transform.position, speed);
-                    rigidBody.velocity = transform.forward.normalized * speed;
-                else
+                if(distBetween < startChargeDistance)
                 {
                     currentCoroutine = StartCoroutine(zapWait());       //starting to wait before zapping
                     state = 4;
@@ -97,7 +104,7 @@ public class attackScript : MonoBehaviour
 
             case 4:
                 distBetween = (transform.position - followee.transform.position).magnitude;
-                if (distBetween > zapDistance)                          //checking if the player is going away while waiting to zap
+                if (distBetween > startChargeDistance)                          //checking if the player is going away while waiting to zap
                     state = 3;                                          //if the player is moving away, cancelling the zap wait and pursue again
                 break;
 
@@ -133,7 +140,7 @@ public class attackScript : MonoBehaviour
 
     void OnCollisionEnter(Collision other)                              //detecting being shot by the plasma gun
     {
-        if (other.gameObject.CompareTag("plasma"))
+        if (other.gameObject.CompareTag("plasma") || other.transform.name == "BladeEdgeA" || other.transform.name == "BladeEdgeB" || other.transform.name == "BladeEdge")
         {
             patrolArea.GetComponent<attackDroneSpawner>().currentCountOfDrones--;   //decrmenting the current count of the drones in spawner script
             Destroy(this.gameObject);                                               //destroying this drone

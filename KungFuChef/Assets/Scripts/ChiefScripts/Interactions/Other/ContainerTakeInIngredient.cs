@@ -28,9 +28,9 @@ public class ContainerTakeInIngredient : MonoBehaviour
 
         if (col.tag == "Food")
         {
-            print(col.transform.localPosition);
+            //print(col.transform.localPosition);
             col.transform.SetParent(transform);
-            print(col.transform.localPosition + ", " + col.transform.parent.name);
+            //print(col.transform.localPosition + ", " + col.transform.parent.name);
             containedIngredientTransforms.Add(col.transform);
             ingredientCount++;
         }

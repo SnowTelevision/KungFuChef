@@ -24,6 +24,10 @@ namespace VRTK
     public class VRTK_InteractUse : MonoBehaviour
     {
         /// <summary>
+        /// Allow use object for every use button event.
+        /// </summary>
+        public bool isToggle = true;
+        /// <summary>
         /// Emitted when a valid object starts being used.
         /// </summary>
         public event ObjectInteractEventHandler ControllerUseInteractableObject;
@@ -171,7 +175,7 @@ namespace VRTK
             {
                 usingObject = touchedObject;
                 var usingObjectScript = usingObject.GetComponent<VRTK_InteractableObject>();
-
+                
                 if (!usingObjectScript.IsValidInteractableController(gameObject, usingObjectScript.allowedUseControllers))
                 {
                     usingObject = null;
@@ -182,6 +186,11 @@ namespace VRTK
                 ToggleControllerVisibility(false);
                 AttemptHaptics();
                 OnControllerUseInteractableObject(interactTouch.SetControllerInteractEvent(usingObject));
+
+                if(!isToggle)
+                {
+                    usingObject = null;
+                }
             }
         }
 

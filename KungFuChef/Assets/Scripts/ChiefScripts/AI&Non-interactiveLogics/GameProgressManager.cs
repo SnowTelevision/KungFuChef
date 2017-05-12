@@ -75,14 +75,24 @@ public class GameProgressManager : MonoBehaviour
                 isSpawnerPausing = false;
             }
 
-            if (startDef && defSpawner.currentCountOfDrones <= defSpawner.maxNumberOfDrones)
+            if (startDef && defSpawner.currentCountOfDrones < defSpawner.maxNumberOfDrones)
             {
-                timeAfterLastDef += Time.deltaTime;
+                timeAfterLastDef += Time.deltaTime; //counting how much time past since last drone spawn
+
+                if (defSpawner.delayBetweenSpawningDrones >= minDefDroneSpawnInterval)
+                {
+                    defSpawner.delayBetweenSpawningDrones = initialDefDelay - (Time.deltaTime / 5f); //shorten def drone spawn delay as time goes
+                }
             }
 
-            if (startAtk && atkSpawner.currentCountOfDrones <= defSpawner.maxNumberOfDrones)
+            if (startAtk && atkSpawner.currentCountOfDrones < defSpawner.maxNumberOfDrones)
             {
                 timeAfterLastAtk += Time.deltaTime;
+
+                if (atkSpawner.delayBetweenSpawningDrones >= minAtkDroneSpawnInterval)
+                {
+                    atkSpawner.delayBetweenSpawningDrones = initialAtkDelay - (Time.deltaTime / 5f); //shorten atk drone spawn delay as time goes
+                }
             }
 
         }
@@ -110,28 +120,28 @@ public class GameProgressManager : MonoBehaviour
             atkSpawner.spawnDrone();
         }
 
-        if (defSpawner.delayBetweenSpawningDrones >= minDefDroneSpawnInterval && startDef && !isSpawnerPausing) //shorten def drone spawn delay as time goes
-        {
-            defSpawner.delayBetweenSpawningDrones = initialDefDelay - ((Time.time - defStartTime) / 5f);
-        }
+        //if (defSpawner.delayBetweenSpawningDrones >= minDefDroneSpawnInterval && startDef && !isSpawnerPausing) //shorten def drone spawn delay as time goes
+        //{
+        //    defSpawner.delayBetweenSpawningDrones = initialDefDelay - ((Time.time - defStartTime) / 5f);
+        //}
 
-        if (atkSpawner.delayBetweenSpawningDrones >= minAtkDroneSpawnInterval && startAtk && !isSpawnerPausing) //shorten atk drone spawn delay as time goes
-        {
-            atkSpawner.delayBetweenSpawningDrones = initialAtkDelay - ((Time.time - atkStartTime) / 5f);
-        }
+        //if (atkSpawner.delayBetweenSpawningDrones >= minAtkDroneSpawnInterval && startAtk && !isSpawnerPausing) //shorten atk drone spawn delay as time goes
+        //{
+        //    atkSpawner.delayBetweenSpawningDrones = initialAtkDelay - ((Time.time - atkStartTime) / 5f);
+        //}
 
         //print(defSpawner.canSpawnDrone);
         //print(timeAfterLastDef - defSpawner.delayBetweenSpawningDrones);
         //print(defSpawner.currentCountOfDrones - defSpawner.maxNumberOfDrones);
         //print(startDef);
 
-        if (defSpawner.canSpawnDrone && timeAfterLastDef >= defSpawner.delayBetweenSpawningDrones && defSpawner.currentCountOfDrones <= defSpawner.maxNumberOfDrones && startDef) //spawn def drone
+        if (defSpawner.canSpawnDrone && timeAfterLastDef >= defSpawner.delayBetweenSpawningDrones && defSpawner.currentCountOfDrones < defSpawner.maxNumberOfDrones && startDef) //spawn def drone
         {
             defSpawner.spawnDrone();
             timeAfterLastDef = 0;
         }
 
-        if (atkSpawner.canSpawnDrone && timeAfterLastAtk >= atkSpawner.delayBetweenSpawningDrones && atkSpawner.currentCountOfDrones <= defSpawner.maxNumberOfDrones && startAtk) //spawn atk drone
+        if (atkSpawner.canSpawnDrone && timeAfterLastAtk >= atkSpawner.delayBetweenSpawningDrones && atkSpawner.currentCountOfDrones < defSpawner.maxNumberOfDrones && startAtk) //spawn atk drone
         {
             atkSpawner.spawnDrone();
             timeAfterLastAtk = 0;

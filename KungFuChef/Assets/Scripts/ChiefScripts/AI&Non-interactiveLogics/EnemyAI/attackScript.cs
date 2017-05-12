@@ -63,10 +63,15 @@ public class attackScript : MonoBehaviour
         if (state != 0)
         {
             distBetween = (transform.position - followee.transform.position).magnitude;
-            if (distBetween > zapDistance)
+            if (distBetween >= zapDistance)
             {
                 //transform.position = Vector3.MoveTowards(transform.position, followee.transform.position, speed);
                 rigidBody.velocity = transform.forward.normalized * speed;
+            }
+
+            else
+            {
+                rigidBody.velocity = Vector3.zero;
             }
         }
 
